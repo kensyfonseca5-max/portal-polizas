@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Pólizas - Área Interna</title>
+    <style>
+        :root { --main-color: #004b87; --accent-bg: #E3F2FD; }
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8fafc; color: #333; line-height: 1.5; }
+        header { background: var(--main-color); color: white; padding: 2rem; text-align: center; transition: background 0.3s ease; }
+        .search-container { margin: 25px auto; text-align: center; }
+        .search-container input { width: 60%; max-width: 600px; padding: 14px; font-size: 16px; border: 2px solid var(--main-color); border-radius: 8px; outline: none; }
+        .nav-buttons { text-align: center; margin-bottom: 20px; }
+        .btn-insurer { padding: 10px 20px; margin: 5px; font-size: 15px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; color: white; transition: transform 0.2s; }
+        .btn-insurer:hover { transform: scale(1.05); }
+        .container { max-width: 1000px; margin: 0 auto 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h2, h3 { color: var(--main-color); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
+        .info-card { background: var(--accent-bg); border-left: 5px solid var(--main-color); padding: 15px; border-radius: 4px; }
+        .highlight-box { background: #f1f5f9; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #cbd5e1; }
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <h1 id="headerTitle">Portal de Pólizas: Ficohsa</h1>
+        <p id="headerSubtitle">Póliza Colectiva de Vida y Gastos Médicos - Inversiones Celaque S.A.</p>
+    </header>
+
+    <div class="nav-buttons">
+        <button class="btn-insurer" style="background: #004b87;" onclick="setTheme('Ficohsa', '#004b87', '#E3F2FD', 'Póliza Colectiva de Vida y Gastos Médicos - Inversiones Celaque S.A.', 'ficohsa')">Ficohsa</button>
+        <button class="btn-insurer" style="background: #005A9C;" onclick="setTheme('Palic', '#005A9C', '#E8F4F8', 'Pólizas y Condiciones - Palic', 'other')">Palic</button>
+        <button class="btn-insurer" style="background: #C8102E;" onclick="setTheme('Mapfre', '#C8102E', '#FCE4EC', 'Pólizas y Condiciones - Mapfre', 'other')">Mapfre</button>
+        <button class="btn-insurer" style="background: #002D62;" onclick="setTheme('ASSA', '#002D62', '#E1F5FE', 'Pólizas y Condiciones - ASSA', 'other')">ASSA</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Buscar deducible, cobertura, coaseguro...">
+    </div>
+
+    <div class="container" id="contentArea">
+        <div id="ficohsaContent">
+            <div class="searchable">
+                <h2>Resumen Operativo - Ficohsa</h2>
+                <div class="highlight-box">
+                    <strong>Vigencia de la Póliza:</strong> 01/12/2025 al 01/12/2026<br>
+                    <strong>Cobertura Geográfica:</strong> Centroamérica | <strong>Máximo Vitalicio:</strong> L. 10,000,000.00
+                </div>
+            </div>
+
+            <div class="searchable">
+                <h3>1. Deducibles y Coaseguros</h3>
+                <ul>
+                    <li><strong>Deducible (Honduras y Centroamérica):</strong> L. 1,400.00 (Máximo 3 por familia).</li>
+                    <li><strong>Coaseguro en Centroamérica:</strong> 80% cubierto por la aseguradora / 20% a cargo del asegurado.</li>
+                    <li><strong>Límite de Coaseguro Hospitalario:</strong> L. 45,000.00 por evento; el exceso de gastos elegibles está cubierto al 100% por la compañía.</li>
+                </ul>
+            </div>
+
+            <div class="searchable">
+                <h3>2. Coberturas Principales y Beneficios</h3>
+                <div class="card-grid">
+                    <div class="info-card">
+                        <h4>Maternidad</h4>
+                        <p>Concepción debe ocurrir después del 4to mes de cobertura continua. Parto normal amparado hasta L. 5,000.00 y Cesárea hasta L. 7,000.00.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>Odontología</h4>
+                        <p>Límite anual de L. 10,000.00 (Deducible L. 600.00; coaseguro preventivo/restaurativo del 80% y servicios mayores del 50%).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="searchable">
+                <h3>3. Procedimientos</h3>
+                <ul>
+                    <li><strong>Pre-Certificación:</strong> Obligatoria para costos mayores a L. 3,000.00.</li>
+                    <li><strong>Reclamos:</strong> Plazo máximo de 6 meses.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="otherContent" style="display: none;">
+            <h2 id="otherTitle">Aseguradora Seleccionada</h2>
+            <p>Sección en proceso de integración.</p>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(name, primaryColor, accentColor, subtitleText, type) {
+            document.documentElement.style.setProperty('--main-color', primaryColor);
+            document.documentElement.style.setProperty('--accent-bg', accentColor);
+            document.getElementById('headerTitle').innerText = 'Portal de Pólizas: ' + name;
+            document.getElementById('headerSubtitle').innerText = subtitleText;
+            
+            document.getElementById('ficohsaContent').style.display = (type === 'ficohsa') ? 'block' : 'none';
+            document.getElementById('otherContent').style.display = (type === 'ficohsa') ? 'none' : 'block';
+            if(type !== 'ficohsa') document.getElementById('otherTitle').innerText = 'Condiciones - ' + name;
+        }
+
+        function filterContent() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let sections = document.getElementsByClassName('searchable');
+            for (let i = 0; i < sections.length; i++) {
+                sections[i].style.display = sections[i].innerText.toLowerCase().includes(input) ? "" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
