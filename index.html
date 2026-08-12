@@ -3,108 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Pólizas - Área Interna</title>
+    <title>Gastos Médicos - Celaque / Ficohsa</title>
     <style>
-        :root { --main-color: #004b87; --accent-bg: #E3F2FD; }
-        body { font-family: Arial, sans-serif; margin: 0; background: #f8fafc; color: #333; line-height: 1.5; }
-        header { background: var(--main-color); color: white; padding: 2rem; text-align: center; transition: background 0.3s ease; }
-        .search-container { margin: 25px auto; text-align: center; }
-        .search-container input { width: 60%; max-width: 600px; padding: 14px; font-size: 16px; border: 2px solid var(--main-color); border-radius: 8px; outline: none; }
-        .nav-buttons { text-align: center; margin-bottom: 20px; }
-        .btn-insurer { padding: 10px 20px; margin: 5px; font-size: 15px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; color: white; transition: transform 0.2s; }
-        .btn-insurer:hover { transform: scale(1.05); }
-        .container { max-width: 1000px; margin: 0 auto 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        h2, h3 { color: var(--main-color); }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
-        .info-card { background: var(--accent-bg); border-left: 5px solid var(--main-color); padding: 15px; border-radius: 4px; }
-        .highlight-box { background: #f1f5f9; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #cbd5e1; }
+        :root {
+            --main-color: #004b87;
+            --accent-bg: #f4f7f6;
+            --text-color: #333;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: var(--accent-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--main-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 950px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            color: var(--main-color);
+            border-bottom: 2px solid var(--main-color);
+            padding-bottom: 5px;
+            margin-top: 40px;
+        }
+        .accordion {
+            background-color: white;
+            color: var(--main-color);
+            cursor: pointer;
+            padding: 15px 20px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion:hover {
+            background-color: #e9f0f5;
+        }
+        .accordion::after {
+            content: '+';
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .accordion.active-acc::after {
+            content: '-';
+        }
+        .panel {
+            padding: 0 20px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #e9f0f5;
+            color: var(--main-color);
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .highlight-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
-    <header id="mainHeader">
-        <h1 id="headerTitle">Portal de Pólizas: Ficohsa</h1>
-        <p id="headerSubtitle">Póliza Colectiva de Vida y Gastos Médicos - Inversiones Celaque S.A.</p>
-    </header>
+<header>
+    <h1>Portal de Beneficios - Celaque</h1>
+    <p>Ficohsa Seguros - Guía Profunda de Gastos Médicos</p>
+</header>
 
-    <div class="nav-buttons">
-        <button class="btn-insurer" style="background: #004b87;" onclick="setTheme('Ficohsa', '#004b87', '#E3F2FD', 'Póliza Colectiva de Vida y Gastos Médicos - Inversiones Celaque S.A.', 'ficohsa')">Ficohsa</button>
-        <button class="btn-insurer" style="background: #005A9C;" onclick="setTheme('Palic', '#005A9C', '#E8F4F8', 'Pólizas y Condiciones - Palic', 'other')">Palic</button>
-        <button class="btn-insurer" style="background: #C8102E;" onclick="setTheme('Mapfre', '#C8102E', '#FCE4EC', 'Pólizas y Condiciones - Mapfre', 'other')">Mapfre</button>
-        <button class="btn-insurer" style="background: #002D62;" onclick="setTheme('ASSA', '#002D62', '#E1F5FE', 'Pólizas y Condiciones - ASSA', 'other')">ASSA</button>
-    </div>
+<div class="container">
 
-    <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="filterContent()" placeholder="Buscar deducible, cobertura, coaseguro...">
-    </div>
+    <h2>Gastos Médicos y Hospitalarios</h2>
 
-    <div class="container" id="contentArea">
-        <div id="ficohsaContent">
-            <div class="searchable">
-                <h2>Resumen Operativo - Ficohsa</h2>
-                <div class="highlight-box">
-                    <strong>Vigencia de la Póliza:</strong> 01/12/2025 al 01/12/2026<br>
-                    <strong>Cobertura Geográfica:</strong> Centroamérica | <strong>Máximo Vitalicio:</strong> L. 10,000,000.00
-                </div>
-            </div>
+    <!-- Acordeón 1: Primas Mensuales y Límites de Edad -->
+    <button class="accordion">1. Primas Mensuales y Límites de Edad</button>
+    <div class="panel">
+        <h4 style="color: var(--main-color); margin-top: 15px;">Primas Mensuales (Categoría I)</h4>
+        <table>
+            <tr><th>Plan / Cobertura</th><th>Tipo</th><th>Prima Mensual</th></tr>
+            <tr><td><strong>Gastos Médicos</strong></td><td>Empleado</td><td>L. 735.00</td></tr>
+            <tr><td><strong>Gastos Médicos</strong></td><td>Grupo Familiar</td><td>L. 2,120.00</td></tr>
+            <tr><td><strong>Plan Dental</strong></td><td>Empleado</td><td>L. 120.00</td></tr>
+            <tr><td><strong>Plan Dental</strong></td><td>Grupo Familiar</td><td>L. 300.00</td></tr>
+        </table>
 
-            <div class="searchable">
-                <h3>1. Deducibles y Coaseguros</h3>
-                <ul>
-                    <li><strong>Deducible (Honduras y Centroamérica):</strong> L. 1,400.00 (Máximo 3 por familia).</li>
-                    <li><strong>Coaseguro en Centroamérica:</strong> 80% cubierto por la aseguradora / 20% a cargo del asegurado.</li>
-                    <li><strong>Límite de Coaseguro Hospitalario:</strong> L. 45,000.00 por evento; el exceso de gastos elegibles está cubierto al 100% por la compañía.</li>
-                </ul>
-            </div>
-
-            <div class="searchable">
-                <h3>2. Coberturas Principales y Beneficios</h3>
-                <div class="card-grid">
-                    <div class="info-card">
-                        <h4>Maternidad</h4>
-                        <p>Concepción debe ocurrir después del 4to mes de cobertura continua. Parto normal amparado hasta L. 5,000.00 y Cesárea hasta L. 7,000.00.</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>Odontología</h4>
-                        <p>Límite anual de L. 10,000.00 (Deducible L. 600.00; coaseguro preventivo/restaurativo del 80% y servicios mayores del 50%).</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="searchable">
-                <h3>3. Procedimientos</h3>
-                <ul>
-                    <li><strong>Pre-Certificación:</strong> Obligatoria para costos mayores a L. 3,000.00.</li>
-                    <li><strong>Reclamos:</strong> Plazo máximo de 6 meses.</li>
-                </ul>
-            </div>
+        <h4 style="color: var(--main-color); margin-top: 20px;">Límites de Edad</h4>
+        
+        <div class="highlight-box" style="background: #eef4f9; border-left-color: var(--main-color);">
+            <strong>Asegurado Titular y Cónyuge:</strong>
+            <ul>
+                <li><strong>Edad mínima de ingreso:</strong> 18 años de edad.</li>
+                <li><strong>Edad máxima de ingreso:</strong> Al cumplimiento de los 70 años de edad.</li>
+                <li><strong>Edad máxima de permanencia:</strong> Al cumplimiento de los 85 años de edad (la cobertura se cancela de forma automática al alcanzar este límite).</li>
+            </ul>
         </div>
 
-        <div id="otherContent" style="display: none;">
-            <h2 id="otherTitle">Aseguradora Seleccionada</h2>
-            <p>Sección en proceso de integración.</p>
+        <div class="highlight-box" style="background: #eef4f9; border-left-color: var(--main-color);">
+            <strong>Hijos Dependientes:</strong>
+            <ul>
+                <li><strong>Edad mínima de ingreso:</strong> A partir del primer día de nacido hasta el máximo vitalicio. Requiere que la madre haya cumplido el periodo de espera de maternidad; de lo contrario, la inclusión aplica desde el día 10 de nacimiento.</li>
+                <li><strong>Edad máxima de permanencia:</strong> Se extiende hasta el cumplimiento de los veinticinco (25) años, siempre que dependan económicamente de los padres, estudien a tiempo completo en un centro educativo reconocido, no estén habilitados o emancipados legalmente y no tengan progenie.</li>
+            </ul>
         </div>
     </div>
 
-    <script>
-        function setTheme(name, primaryColor, accentColor, subtitleText, type) {
-            document.documentElement.style.setProperty('--main-color', primaryColor);
-            document.documentElement.style.setProperty('--accent-bg', accentColor);
-            document.getElementById('headerTitle').innerText = 'Portal de Pólizas: ' + name;
-            document.getElementById('headerSubtitle').innerText = subtitleText;
-            
-            document.getElementById('ficohsaContent').style.display = (type === 'ficohsa') ? 'block' : 'none';
-            document.getElementById('otherContent').style.display = (type === 'ficohsa') ? 'none' : 'block';
-            if(type !== 'ficohsa') document.getElementById('otherTitle').innerText = 'Condiciones - ' + name;
-        }
+    <!-- Acordeón 2 -->
+    <button class="accordion">2. Límites Generales, Deducibles y Protección Financiera</button>
+    <div class="panel">
+        <table>
+            <tr><th>Componente Clave</th><th>Detalle y Profundidad de la Póliza</th></tr>
+            <tr><td>Cobertura Geográfica</td><td>Centroamérica.</td></tr>
+            <tr><td>Máximo Vitalicio</td><td>L. 10,000,000.00 como tope global de la cobertura.</td></tr>
+            <tr><td>Deducible Anual</td><td>L. 1,400.00 tanto en Honduras como en Centroamérica. Se establece un máximo de 3 deducibles por núcleo familiar.</td></tr>
+            <tr><td>Tope de Coaseguro Hospitalario</td><td><strong>Crucial:</strong> Se limita a un máximo de L. 45,000.00 por evento (calculado como el 20% de los primeros L. 225,000.00). Todo gasto elegible que rebase esa cantidad es cubierto al 100% por la aseguradora. <em>Nota: No aplica para gastos ambulatorios</em>.</td></tr>
+            <tr><td>Habitación y Alimentación</td><td>Reembolso o cobertura normada hasta por L. 2,200.00 diarios.</td></tr>
+            <tr><td>VIH / SIDA e ITS</td><td>Protección especializada cubierta hasta el 50% del máximo vitalicio.</td></tr>
+        </table>
+    </div>
 
-        function filterContent() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let sections = document.getElementsByClassName('searchable');
-            for (let i = 0; i < sections.length; i++) {
-                sections[i].style.display = sections[i].innerText.toLowerCase().includes(input) ? "" : "none";
+    <!-- Acordeón 3 -->
+    <button class="accordion">3. Protocolo de Pre-Certificación y Urgencias (¡Muy Importante!)</button>
+    <div class="panel">
+        <div class="highlight-box">
+            <strong>Atención:</strong> Evita penalizaciones siguiendo estrictamente estos tiempos y reglas operativas con la aseguradora.
+        </div>
+        <ul>
+            <li><strong>¿Cuándo se requiere pre-certificación?</strong> Obligatorio para cualquier internamiento intrahospitalario, intervenciones quirúrgicas, procesos de maternidad, adquisición o alquiler de equipo médico durable, y realización de exámenes especiales que superen los <strong>L. 3,000.00</strong>.</li>
+            <li><strong>Tiempo límite de solicitud programada:</strong> Debe gestionarse formalmente con un mínimo de <strong>5 días hábiles</strong> de anticipación al procedimiento.</li>
+            <li><strong>Protocolo en caso de Emergencia:</strong> Si ocurre una emergencia médica u hospitalización imprevista, el evento debe notificarse obligatoriamente a Ficohsa dentro de las primeras <strong>24 horas</strong> de haber sucedido.</li>
+        </ul>
+    </div>
+
+    <!-- Acordeón 4 -->
+    <button class="accordion">4. Maternidad, Partos y Cuidado del Recién Nacido</button>
+    <div class="panel">
+        <table>
+            <tr><th>Concepto de Maternidad</th><th>Condiciones y Límites Específicos</th></tr>
+            <tr><td>Periodo de Espera</td><td>La concepción debe registrarse de manera indispensable <strong>después del cuarto mes</strong> de vigencia y cobertura continua.</td></tr>
+            <tr><td>Parto Normal vs. Cesárea</td><td>Parto normal: L. 5,000.00 de reembolso. Cesárea: L. 7,000.00. <em>Ambos montos se duplican automáticamente en caso de nacimientos múltiples o gemelos</em>.</td></tr>
+            <tr><td>Protección del Recién Nacido</td><td>Cobertura activa desde el primer día de nacimiento para anomalías congénitas, patologías contraídas en el centro hospitalario y condiciones de prematurez (condicionado a que la madre haya cumplido su periodo de espera).</td></tr>
+            <tr><td>Programa de Niño Sano</td><td>Válido desde los 10 días de nacido hasta cumplir los 10 años. Incluye la aplicación del esquema de vacunación oficial PAI de la Secretaría de Salud.</td></tr>
+        </table>
+    </div>
+
+    <!-- Acordeón 5 -->
+    <button class="accordion">5. Red Médica, Farmacias y Beneficios Preventivos</button>
+    <div class="panel">
+        <table>
+            <tr><th>Canal de Atención / Beneficio</th><th>Detalle Operativo</th></tr>
+            <tr><td>Orientación Telefónica 24/7</td><td>Sin copago. Líneas directas de asistencia: Tegucigalpa (2280-5252) y SPS / La Ceiba (2580-5252).</td></tr>
+            <tr><td>Red Porsalud (Consultas)</td><td>Médico general: Copago de L. 178.00 (horario regular) o L. 248.00 (emergencias / horario inhábil). Especialistas: Copago de L. 175.00 a L. 200.00.</td></tr>
+            <tr><td>Red de Farmacias</td><td>Coaseguro preferencial del 25% sin tope de compra, presentando obligatoriamente la receta médica con membrete profesional.</td></tr>
+            <tr><td>Hospital Honduras Medical Center (HMC)</td><td>Atención directa en red bajo un esquema de coaseguro del 30% a cargo del colaborador/asegurado.</td></tr>
+            <tr><td>Chequeo Preventivo del Titular</td><td>Reembolso anual de hasta L. 3,500.00 (aplica coaseguro correspondiente, libre de deducible). Incluye control ginecológico anual (citologías y mamografía según edad) y antígeno prostático (PSA) para hombres mayores de 40 años.</td></tr>
+            <tr><td>Ayuda Oftalmológica y Otros</td><td>L. 4,000.00 cada dos años para el titular (incluye consulta, aros y graduación; aplica deducible, sin coaseguro; excluye lentes de sol y contacto). Apnea del sueño cubierta hasta L. 10,000.00. Ambulancia terrestre en Honduras hasta L. 15,000.00 por evento.</td></tr>
+        </table>
+    </div>
+
+    <!-- Acordeón 6 -->
+    <button class="accordion">6. Preexistencias, Reembolsos Fuera de Red y Accidentes Dentales</button>
+    <div class="panel">
+        <ul>
+            <li><strong>Enfermedades Preexistentes:</strong> Se rigen bajo las condiciones corporales estipuladas en la contratación de la póliza y sus respectivos periodos de carencia o aceptación según las políticas de grupo de Celaque con la aseguradora.</li>
+            <li><strong>Atención y Reembolsos Fuera de Red:</strong> Si te atiendes con un médico o clínica que no pertenece a la red directa de Ficohsa, deberás cubrir el costo inicial y posteriormente presentar la documentación completa (facturas timbradas, informe médico y recetas originales) para su proceso de reembolso sujeto a los porcentajes y deducibles de la póliza.</li>
+            <li><strong>Emergencias y Accidentes Dentales:</strong> Los tratamientos dentales están limitados estrictamente a emergencias derivadas de un accidente externo (golpes o traumas directos), cubriendo la restauración de piezas sanas afectadas bajo los lineamientos de la aseguradora.</li>
+        </ul>
+    </div>
+
+    <!-- Acordeón 7 -->
+    <button class="accordion">7. Restricciones, Exclusiones y Aclaraciones Importantes</button>
+    <div class="panel">
+        <ul>
+            <li><strong>Lentes de Sol y de Contacto:</strong> Quedan excluidos expresamente de la ayuda oftalmológica (solo aplican aros, graduación y consulta bajo el límite establecido).</li>
+            <li><strong>Gastos Ambulatorios vs. Hospitalarios:</strong> El tope máximo de coaseguro hospitalario (L. 45,000.00) aplica exclusivamente para eventos intrahospitalarios; <em>no aplica</em> para consultas o procedimientos ambulatorios.</li>
+            <li><strong>Prescripción Médica Obligatoria:</strong> La gran mayoría de beneficios especiales, farmacias y chequeos preventivos exigen receta médica con membrete o indicación profesional explícita para ser elegibles ante la aseguradora.</li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active-acc");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
             }
-        }
-    </script>
+        });
+    }
+</script>
+
 </body>
 </html>
