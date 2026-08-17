@@ -28,11 +28,31 @@
             margin: 30px auto;
             padding: 0 20px;
         }
+        
+        /* Estilos para la barra de búsqueda */
+        .search-container {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #searchInput:focus {
+            border-color: var(--main-color);
+        }
+
         h2 {
             color: var(--main-color);
             border-bottom: 2px solid var(--main-color);
             padding-bottom: 5px;
-            margin-top: 40px;
+            margin-top: 20px;
         }
         .accordion {
             background-color: white;
@@ -105,6 +125,14 @@
             margin: 15px 0;
             font-size: 14px;
         }
+        /* Clase de utilidad para cuando no hay resultados */
+        .no-results {
+            display: none;
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +144,16 @@
 
 <div class="container">
 
+    <!-- Barra de Búsqueda -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Buscar en pólizas (ej. deducible, maternidad, emergencias)...">
+    </div>
+
     <h2>Gastos Médicos y Hospitalarios</h2>
+    
+    <div id="noResultsMsg" class="no-results">
+        No se encontraron coincidencias para tu búsqueda.
+    </div>
 
     <!-- Acordeón 1: Primas Mensuales y Límites de Edad -->
     <button class="accordion">1. Primas Mensuales y Límites de Edad</button>
@@ -226,6 +263,7 @@
 </div>
 
 <script>
+    // Lógica original de los acordeones
     var acc = document.getElementsByClassName("accordion");
     for (var i = 0; i < acc.length; i++) {
         acc[i].addEventListener("click", function() {
@@ -238,6 +276,52 @@
             }
         });
     }
+
+    // Lógica de la barra de búsqueda
+    const searchInput = document.getElementById("searchInput");
+    const noResultsMsg = document.getElementById("noResultsMsg");
+    const panels = document.getElementsByClassName("panel");
+
+    searchInput.addEventListener("input", function() {
+        const query = this.value.toLowerCase().trim();
+        let matchCount = 0;
+
+        for (let i = 0; i < acc.length; i++) {
+            const accordionButton = acc[i];
+            const accordionPanel = panels[i];
+            
+            // Unimos el texto del título y del contenido para buscar en ambos
+            const textToSearch = (accordionButton.innerText + " " + accordionPanel.innerText).toLowerCase();
+
+            if (textToSearch.includes(query)) {
+                // Mostrar si hay coincidencia
+                accordionButton.style.display = ""; 
+                matchCount++;
+
+                // Si hay texto en la búsqueda, abrimos el panel automáticamente para que el usuario lea
+                if (query !== "") {
+                    accordionButton.classList.add("active-acc");
+                    accordionPanel.style.maxHeight = accordionPanel.scrollHeight + "px";
+                } else {
+                    // Si la búsqueda está vacía, cerramos todo para volver al estado inicial
+                    accordionButton.classList.remove("active-acc");
+                    accordionPanel.style.maxHeight = null;
+                }
+            } else {
+                // Ocultar si no hay coincidencia
+                accordionButton.style.display = "none";
+                accordionButton.classList.remove("active-acc");
+                accordionPanel.style.maxHeight = null;
+            }
+        }
+
+        // Mostrar mensaje si no hay resultados
+        if (matchCount === 0 && query !== "") {
+            noResultsMsg.style.display = "block";
+        } else {
+            noResultsMsg.style.display = "none";
+        }
+    });
 </script>
 
 </body>
